@@ -1,66 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
-
-from bs4 import BeautifulSoup
-import requests
-import string
-import numpy as np
-import time
-import pandas as pd
-df = pd.DataFrame(columns=('bikeNamefind', 'status2','price', 'moreInfo'))
-storage = []
-
-
-def findBikes():
-    html_text = requests.get('https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2380057.m570.l1313&_nkw=motorcycle&_sacat=0')
-    soup = BeautifulSoup(html_text.content,'lxml')   #lxml parce method
-    bikes = soup.find_all('li', class_ ='s-item s-item__pl-on-bottom s-item--watch-at-corner')
-    #print(bike)
-    for index, bike in enumerate(bikes):
-
-        bikeNamefind = bike.find('h3', class_='s-item__title').text
-        if bikeNamefind[0].isdigit() == True:
-            #continue
-            status = bike.find('div', class_='s-item__subtitle').text
-            status2 = bike.find('span', class_='SECONDARY_INFO').text
-            price = bike.find('span', class_='s-item__price').text
-            moreInfo = bike.div.div.a['href']
-            #if status == status2:
-            #print([bikeNamefind, status, price])
-            df.loc[index] = [bikeNamefind, status2, price, moreInfo]
-            #else: 
-             #   print([bikeNamefind, status, status2, price])
-
-        else:
-            continue
-            status = bike.find('div', class_='s-item__subtitle').text
-            status2 = bike.find('span', class_='SECONDARY_INFO').text
-            price = bike.find('span', class_='s-item__price').text
-            #if status == status2:
-            #print([bikeNamefind, status, price])
-            df.loc[index] = [bikeNamefind, status2, price, moreInfo]
-        
-                
-if __name__ == '__main__':
-    while True:
-        findBikes()
-        time.sleep(100)
-        
-
-        #else: 
-        #print([bikeNamefind, status, status2, price])
-
-    df.to_csv('test.csv', index = True)
-
-#Inspecting web price
-
-
-# In[2]:
-
-
 from bs4 import BeautifulSoup
 import requests
 import string
@@ -144,8 +81,6 @@ soup = BeautifulSoup(html_text.content,'html.parser')
 bikes = soup.find_all('li', class_ ='s-item s-item__pl-on-bottom s-item--watch-at-corner')
 print(soup)
 
-
-# In[ ]:
 
 
 
